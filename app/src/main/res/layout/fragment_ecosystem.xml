@@ -34,18 +34,21 @@
 
   <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/iteration_count_layout"
-    android:layout_width="150sp"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/half_static_spacing"
     app:hintEnabled="true"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/terrain">
+    app:layout_constraintEnd_toStartOf="@id/breed_count_layout"
+    app:layout_constraintTop_toBottomOf="@id/terrain"
+    app:layout_constraintWidth_max="@dimen/text_widget_max_width"
+    app:layout_constraintHorizontal_chainStyle="spread_inside">
 
     <com.google.android.material.textfield.TextInputEditText
       android:id="@+id/iteration_count"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="# of iterations"
+      android:hint="@string/iteration_count_label"
       android:inputType="none"
       android:focusable="false"
       android:textAlignment="textEnd"
@@ -53,13 +56,28 @@
 
   </com.google.android.material.textfield.TextInputLayout>
 
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/breed_count_layout"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/half_static_spacing"
+    app:hintEnabled="true"
+    app:layout_constraintStart_toEndOf="@id/iteration_count_layout"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/terrain"
+    app:layout_constraintWidth_max="@dimen/text_widget_max_width">
 
-  <!--
-      TODO Add a non-editable view (e.g. TextView, TextInputEditText w/ editable=false) to display
-       the number of extant (surviving) breeds remaining in the ecosystem simulation. This view
-       must be labeled (e.g., using another TextView or a TextInputLayout), so the user knows what
-       they are seeing.
-  -->
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/breed_count"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/breed_count_label"
+      android:inputType="none"
+      android:focusable="false"
+      android:textAlignment="textEnd"
+      tools:text="5"/>
+
+  </com.google.android.material.textfield.TextInputLayout>
 
   <!--
       TODO Add a non-editable view (e.g. TextView, TextInputEditText w/ editable=false) to display

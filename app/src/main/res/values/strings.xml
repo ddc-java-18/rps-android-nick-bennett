@@ -42,5 +42,8 @@
   <string name="swap_likelihood_summary">This is the probability (expressed as a percent) that each iteration will include a swap of two randomly selected elements.</string>
   <string name="run_speed_key">run_speed</string>
   <string name="run_speed_title">Speed of ecosystem simulation</string>
+  <string name="iteration_count_label"># of iterations</string>
+  <string name="breed_count_label"># of breeds</string>
+  <string name="iteration_count_format">%,d</string>
 
 </resources>
