@@ -69,11 +69,11 @@ public class EcosystemViewModel extends ViewModel implements DefaultLifecycleObs
   private final String toroidalTopologyKey;
   private final boolean toroidalTopologyDefault;
 
-  // TODO Define final String and int fields for the run speed key and the run speed default,
-  //  respectively.
+  private final String runSpeedKey;
+  private final int runSpeedDefault;
 
-  // TODO Define final String and int fields for the swap likelihood key and the swap likelihood
-  //  default, respectively.
+  private final String swapLikelihoodKey;
+  private final int swapLikelihoodDefault;
 
   private int currentTerrainSize;
 
@@ -102,13 +102,11 @@ public class EcosystemViewModel extends ViewModel implements DefaultLifecycleObs
     toroidalTopologyKey = res.getString(R.string.toroidal_topology_key);
     toroidalTopologyDefault = res.getBoolean(R.bool.toroidal_topology_default);
 
-    // TODO Assign values to the run speed key and run speed default fields. See
-    //  res/xml/settings.xml for the resources involved; see the above code used to assign values to
-    //  the key and default fields for an illustration of the technique.
+    runSpeedKey = res.getString(R.string.run_speed_key);
+    runSpeedDefault = res.getInteger(R.integer.run_speed_default);
 
-    // TODO Assign values to the swap likelihood key and swap likelihood default fields. See
-    //  res/xml/settings.xml for the resources involved; see the above code used to assign values to
-    //    //  the key and default fields for an illustration of the technique.
+    swapLikelihoodKey = res.getString(R.string.swap_likelihood_key);
+    swapLikelihoodDefault = res.getInteger(R.integer.run_speed_default);
 
     create();
   }
@@ -132,53 +130,11 @@ public class EcosystemViewModel extends ViewModel implements DefaultLifecycleObs
    * {@link android.content.SharedPreferences}.
    */
   public void run() {
-
-    // TODO Declare an int local variable for the run speed; then, using the run speed key and run
-    //  speed default value fields (as outlined in the to-do items, above), obtain the run speed
-    //  value from preferencesRepository, using the technique illustrated in the create() method
-    //  (above).
-
-    // TODO Declare an int local variable for the swap likelihood; then, using the swap likelihood
-    //  key and swap likelihood default value fields (as outlined in the to-do items, above), obtain
-    //  the swap likelihood value from preferencesRepository, using the technique illustrated in the
-    //  create() method (above).
-
-    // TODO In the ecosystemRepository.run() method invocation below, specify the argument for the
-    //  iterationsPerBatch parameter (currently 100) as a value computed from the run speed
-    //  (obtained from the preferences earlier in this method) and the current terrain size.
-    //  ---
-    //  Note that while run speed must come from the preferences, the terrain size should be taken
-    //  from the currentTerrainSize field, NOT from the preferences. This is because preferences can
-    //  be modified after creating an ecosystem, but some of them (including terrain size) don't
-    //  take effect until the next time an ecosystem is created; thus, when invoking the run method,
-    //  we need to take the terrain size component of our iterationsPerBatch parameter value
-    //  calculation from the current ecosystem. For this purpose, the create method (above) is
-    //  already capturing the ecosystem size to the currentTerrainSize field.
-    //  ---
-    //  The run_speed preference value is an integer in the range 1..5; you must multiply
-    //  that number by the number of elements in the terrain (that is, currentTerrainSize *
-    //  currentTerrainSize), then divide by 25, and use that result (expressed as an int) as the
-    //  first argument to the ecosystemRepository.run() method invocation below.
-    //  ---
-    //  In other words, given all of the above, and if we assume that (earlier in this method) we
-    //  declare an int variable runSpeed, assigning it a value from the preferences, the first
-    //  argument in the ecosystemRepository.run() method invocation (below) should be computed as
-    //  (runSpeed * currentTerrainSize * currentTerrainSize / 25).
-
-    // TODO In the ecosystemRepository.run() method invocation below, specify the value of the
-    //  swapProbability parameter (currently 0) with a value computed from the swap likelihood
-    //  (obtained from preferences earlier in this method).
-    //  ---
-    //  The swap_likelihood preference value is an integer in the range 0..10; you must divide that
-    //  value by 100f before using the result (expressed as a float) as the second argument to the
-    //  ecosystemRepository.run() method invocation below.
-    //  ---
-    //  In other words, given the above, and if we assume that (earlier in this method) we declare
-    //  an int variable swapLikelihood, assigning it a value from the preferences, the second
-    //  argument in the ecosystemRepository.run() method invocation (below) should be computed as
-    //  (swapLikelihood / 100f).
-
-    execute(ecosystemRepository.run(100, 0, TICK_MILLISECONDS), (ignored) -> {}, () -> {});
+    int runSpeed = preferencesRepository.get(runSpeedKey, runSpeedDefault);
+    int iterationsPerTick = runSpeed * currentTerrainSize * currentTerrainSize / 25;
+    int swapLikelihood = preferencesRepository.get(swapLikelihoodKey, swapLikelihoodDefault);
+    execute(ecosystemRepository.run(
+        iterationsPerTick, swapLikelihood / 100f, TICK_MILLISECONDS), (ignored) -> {}, () -> {});
   }
 
   /**
